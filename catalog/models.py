@@ -12,8 +12,6 @@ class Product(models.Model):
     last_modified_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        \
-
         return f'{self.name} {self.purchase_price} {self.category}'
 
     class Meta:
