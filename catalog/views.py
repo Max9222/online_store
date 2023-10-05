@@ -1,16 +1,23 @@
 from django.shortcuts import render
+from django.views.generic import ListView, DetailView
 
 from catalog.models import Product
 
 
-def index(request):
-    if request.method == 'POST':
-        print(**request.POST)
+class IndexListView(ListView):
+    model = Product
+    template_name = 'catalog/index.html'
 
-    context = {
-        'title': 'Главная'
-    }
-    return render(request, 'catalog/index.html', context)
+
+# def index(request):
+#     if request.method == 'POST':
+#         print(**request.POST)
+#
+#     context = {
+#         'object_list': Product.objects.all(),
+#         'title': 'Главная'
+#     }
+#     return render(request, 'catalog/index.html', context)
 
 
 def contact(request):
@@ -26,9 +33,12 @@ def contact(request):
     return render(request, 'catalog/contact.html', context)
 
 
+# class ProductDetailView(DetailView):
+#     model = Product
+#     template_name = 'catalog/product.html'
 def product(request):
     product_list = Product.objects.all()
-    print(product_list)
+
     context = {
         'object_list': product_list,
         'title': 'Продукт'
