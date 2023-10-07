@@ -9,16 +9,6 @@ class IndexListView(ListView):
     template_name = 'catalog/index.html'
 
 
-# def index(request):
-#     if request.method == 'POST':
-#         print(**request.POST)
-#
-#     context = {
-#         'object_list': Product.objects.all(),
-#         'title': 'Главная'
-#     }
-#     return render(request, 'catalog/index.html', context)
-
 
 def contact(request):
     if request.method == 'POST':
@@ -33,14 +23,10 @@ def contact(request):
     return render(request, 'catalog/contact.html', context)
 
 
-# class ProductDetailView(DetailView):
-#     model = Product
-#     template_name = 'catalog/product.html'
-def product(request):
-    product_list = Product.objects.all()
+class ProductListView(ListView):
+    model = Product
+    template_name = 'catalog/product.html'
 
-    context = {
-        'object_list': product_list,
-        'title': 'Продукт'
-    }
-    return render(request, 'catalog/product.html', context)
+
+class ProductDetailView(DetailView):
+    model = Product
