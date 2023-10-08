@@ -17,9 +17,8 @@
                      alt="Card image cap">
                 <div class="card-body">
                     <h1 class="card-title pricing-card-title">{{ object.name }}</h1>
-                    <button  type="button" class="btn btn-lg btn-block btn-outline-primary">
-                        Информация
-                    </button>
+                    <a href="{% url 'catalog:product_view' object.pk %}" type="button"
+                       class="btn btn-sm btn-outline-secondary">View</a>
                 </div>
             </div>
         </div>
