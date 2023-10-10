@@ -36,17 +36,20 @@ class ProductDetailView(DetailView):
 
 class BlogCreateView(CreateView):
     model = Blog
-    fields = ('title', 'content',)
+    fields = ('title', 'content', 'preview',)
     success_url = reverse_lazy('catalog:index')
 
-# class BlogDetailView(DetailView):
-#     model = Blog
-#
-#     def get_object(self, queryset=None):
-#         self.object = super().get_object(queryset)
-#         self.object.views_count += 1
-#         self.object.save()
-#         return self.object
+class BlogListView(ListView):
+    model = Blog
+
+class BlogDetailView(DetailView):
+    model = Blog
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        self.object.views_count += 1
+        self.object.save()
+        return self.object
 
 
 
