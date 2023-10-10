@@ -36,7 +36,7 @@ class ProductDetailView(DetailView):
 
 class BlogCreateView(CreateView):
     model = Blog
-    fields = ('title', 'body',)
+    fields = ('title', 'content',)
     success_url = reverse_lazy('catalog:index')
 
 # class BlogDetailView(DetailView):
