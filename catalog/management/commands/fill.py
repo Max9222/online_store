@@ -30,6 +30,16 @@ class Command(BaseCommand):
                     "date_of_creation": "2023-09-30T17:45:02Z",
                     "last_modified_date": "2023-09-30T17:45:04Z"
                 },
+                {
+                    "pk": 3,
+                    "name": "JBL",
+                    "description": "Колонка",
+                    "image": "",
+                    "category": "гаджет",
+                    "purchase_price": 50000,
+                    "date_of_creation": "2023-09-30T17:28:14Z",
+                    "last_modified_date": "2023-09-30T17:28:19Z"
+                },
             ]
 
             product_for_create = []
