@@ -8,14 +8,11 @@
                 <div class="card-body">
                     <form method="post">
                         {% csrf_token %}
-                        {{ form.as_p }}
-                        <button type="submit" class="btn btn-primary">
-                            {% if object %}
-                                Сохранить
-                            {% else %}
-                                Создать
-                            {% endif %}
+                        <p>Хотите удалить блог "{{ object.title }}"?</p>
+                        <button type="submit" class="btn btn-da">
+                        Подтверждение
                         </button>
+                        <a href="{% 'catalog:blog_list' %}">Отмена</a>
                     </form>
                 </div>
             </div>
