@@ -47,3 +47,17 @@ class Blog(models.Model):
     class Meta:
         verbose_name = 'Блог'
         verbose_name_plural = 'Блоги'
+
+
+class Possibilities(models.Model):
+    title = models.CharField(max_length=150, verbose_name='название')
+    description = models.TextField(verbose_name='описание')
+
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='продукт')
+
+    def __str__(self):
+        return f'{self.title}'
+
+    class Meta:
+        verbose_name = 'возможность'
+        verbose_name_plural = 'возможности'
