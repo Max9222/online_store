@@ -10,6 +10,13 @@ class ProductForm(forms.ModelForm):
         # fields = ('name', )
         # exclude = ('is_active',)'
 
+    def clean_name(self):
+        cleaned_data = self.cleaned_data['name']
+        exception = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция', 'радар', ]
+        if cleaned_data in exception:
+            raise forms.ValidationError('Запрещенный продукт')
+
+        return cleaned_data
 
 class PossibilitiesForm(forms.ModelForm):
     class Meta:
