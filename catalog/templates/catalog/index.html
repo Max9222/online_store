@@ -21,14 +21,15 @@
                 <div class="card-body">
                     <h1 class="card-title pricing-card-title">{{ object.name }}</h1>
                     <a href="{% url 'catalog:product_view' object.pk %}" type="button"
-                       class="btn btn-sm btn-outline-secondary">View</a>
-                    <a href="{% url 'catalog:update_product' object.pk %}" type="button"
-                       class="btn btn-sm btn-outline-secondary">Edit</a>
+                       class="btn btn-outline-info">Посмотреть</a>
+                    <a href="{% url 'catalog:update_product' object.pk %}" type="button" class="btn btn-outline-success">Изменить</a>
+                    <a href="{% url 'catalog:delete_product' object.pk %}" type="button"
+                       class="btn btn-outline-danger">Удалить</a>
                 </div>
             </div>
         </div>
         {% endfor %}
-    </div>
+    </div
 
     <footer class="pt-4 my-md-5 pt-md-5 border-top">
         <div class="row">

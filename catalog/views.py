@@ -36,6 +36,17 @@ class ProductListView(ListView):
 class ProductDetailView(DetailView):
     model = Product
 
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        self.object.views_count += 1
+        self.object.save()
+        return self.object
+
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    success_url =  reverse_lazy('catalog:index')
+
 #####
 
 class BlogCreateView(CreateView):
@@ -66,7 +77,7 @@ class BlogDetailView(DetailView):
 
 class BlogDeleteView(DeleteView):
     model = Blog
-    success_url = reverse_lazy('catalog:list')
+    success_url = reverse_lazy('catalog:blog_list')
 
 def toggle_activity(request, pk):
     blog_item = get_object_or_404(Blog, pk=pk)

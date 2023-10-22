@@ -11,6 +11,8 @@ class Product(models.Model):
     date_of_creation = models.DateTimeField(auto_now_add=True)
     last_modified_date = models.DateTimeField(auto_now=True)
 
+    views_count = models.IntegerField(default=0, verbose_name='количество просмотров')
+
     def __str__(self):
         return f'{self.name} {self.purchase_price} {self.category}'
 
