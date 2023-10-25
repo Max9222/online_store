@@ -9,8 +9,8 @@
 
 <div class="container">
     <div class="col-12 mb-5">
-            <a class="btn btn-outline-primary" href="{% url 'catalog:create_product' %}">Добавить продукт</a>
-        </div>
+        <a class="btn btn-outline-primary" href="{% url 'catalog:create_product' %}">Добавить продукт</a>
+    </div>
     <div class="row text-center">
         {% for object in object_list %}
         <div class="col-md-4">
@@ -22,7 +22,8 @@
                     <h1 class="card-title pricing-card-title">{{ object.name }}</h1>
                     <a href="{% url 'catalog:product_view' object.pk %}" type="button"
                        class="btn btn-outline-info">Посмотреть</a>
-                    <a href="{% url 'catalog:update_product' object.pk %}" type="button" class="btn btn-outline-success">Изменить</a>
+                    <a href="{% url 'catalog:update_product' object.pk %}" type="button"
+                       class="btn btn-outline-success">Изменить</a>
                     <a href="{% url 'catalog:delete_product' object.pk %}" type="button"
                        class="btn btn-outline-danger">Удалить</a>
                 </div>
