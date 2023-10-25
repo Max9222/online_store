@@ -7,7 +7,11 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">
+                        {% if object %}
+                        Редактирование продукта
+                        {% else %}
                         Добавление продукта
+                        {% endif %}
                     </h3>
                 </div>
                 <div class="card-body">

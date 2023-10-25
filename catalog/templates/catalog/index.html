@@ -9,8 +9,8 @@
 
 <div class="container">
     <div class="col-12 mb-5">
-            <a class="btn btn-outline-primary" href="{% url 'catalog:create_product' %}">Добавить продукт</a>
-        </div>
+        <a class="btn btn-outline-primary" href="{% url 'catalog:create_product' %}">Добавить продукт</a>
+    </div>
     <div class="row text-center">
         {% for object in object_list %}
         <div class="col-md-4">
@@ -21,14 +21,16 @@
                 <div class="card-body">
                     <h1 class="card-title pricing-card-title">{{ object.name }}</h1>
                     <a href="{% url 'catalog:product_view' object.pk %}" type="button"
-                       class="btn btn-sm btn-outline-secondary">View</a>
+                       class="btn btn-outline-info">Посмотреть</a>
                     <a href="{% url 'catalog:update_product' object.pk %}" type="button"
-                       class="btn btn-sm btn-outline-secondary">Edit</a>
+                       class="btn btn-outline-success">Изменить</a>
+                    <a href="{% url 'catalog:delete_product' object.pk %}" type="button"
+                       class="btn btn-outline-danger">Удалить</a>
                 </div>
             </div>
         </div>
         {% endfor %}
-    </div>
+    </div
 
     <footer class="pt-4 my-md-5 pt-md-5 border-top">
         <div class="row">
@@ -49,13 +51,15 @@
             <div class="col-6 col-md">
                 <h5>Дополнительно</h5>
                 <ul class="list-unstyled text-small">
-                    <li><a class="text-muted" href="#">Мы пишем</a></li>
+                    <li><a class="text-muted" href="/blog/">О нас пишут отзывы</a></li>
                 </ul>
             </div>
             <div class="col-6 col-md">
                 <h5>О нас</h5>
                 <ul class="list-unstyled text-small">
-                    <li><a class="text-muted" href="/contacts/">Контакты</a></li>
+                    <li>
+                        <a class="text-muted" href="/contact/">Контакты</a>
+                    </li>
                 </ul>
             </div>
         </div>

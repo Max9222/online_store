@@ -12,9 +12,9 @@ class ProductForm(StyleFormMixin, forms.ModelForm):
 
     class Meta:
         model = Product
-        fields = '__all__'
+        # fields = '__all__'
         # fields = ('name', )
-        # exclude = ('is_active',)'
+        exclude = ('anonymous_users',)
 
 
     def clean_name(self):

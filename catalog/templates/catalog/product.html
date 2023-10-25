@@ -23,6 +23,7 @@
                          alt="Card image cap">
                     <div class="card-body">
                         <p class="card-text">{{ object|title }}</p>
+                        <h1 class="text-muted">{{ object.anonymous_users|default:"Обычный" }}</h1>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
                                 <a href="{% url 'catalog:product_view' object.pk %}" type="button"

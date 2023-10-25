@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 
 NULLABLE = {'blank': True, 'null': True}
@@ -10,6 +11,10 @@ class Product(models.Model):
     purchase_price = models.IntegerField(verbose_name='цена за покупку')
     date_of_creation = models.DateTimeField(auto_now_add=True)
     last_modified_date = models.DateTimeField(auto_now=True)
+
+    views_count = models.IntegerField(default=0, verbose_name='количество просмотров')
+
+    anonymous_users = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, **NULLABLE, verbose_name='анонимный пользователь')
 
     def __str__(self):
         return f'{self.name} {self.purchase_price} {self.category}'
