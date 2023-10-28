@@ -16,6 +16,8 @@ class Product(models.Model):
 
     anonymous_users = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, **NULLABLE, verbose_name='анонимный пользователь')
 
+    is_published = models.BooleanField(default=False, verbose_name='признак публикации')
+
     def __str__(self):
         return f'{self.name} {self.purchase_price} {self.category}'
 
