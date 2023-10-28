@@ -1,3 +1,5 @@
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.forms import inlineformset_factory
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
@@ -9,12 +11,16 @@ from catalog.models import Product, Blog, Possibilities, Version
 from django.urls import reverse
 
 
-class IndexListView(ListView):
+
+
+
+
+class IndexListView(LoginRequiredMixin, ListView):
     model = Product
     template_name = 'catalog/index.html'
 
-
-
+@login_required
+@permission_required('catalog.view_product')
 def contact(request):
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -28,12 +34,12 @@ def contact(request):
     return render(request, 'catalog/contact.html', context)
 
 
-class ProductListView(ListView):
+class ProductListView(LoginRequiredMixin, ListView):
     model = Product
     template_name = 'catalog/product.html'
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
 
     def get_object(self, queryset=None):
@@ -43,58 +49,20 @@ class ProductDetailView(DetailView):
         return self.object
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Product
-    success_url =  reverse_lazy('catalog:index')
-
-#####
-
-class BlogCreateView(CreateView):
-    model = Blog
-    fields = ('title', 'content', 'preview',)
-    success_url = reverse_lazy('catalog:blog_list')
+    success_url = reverse_lazy('catalog:index')
+    permission_required = 'catalog.delete_product'
 
 
-class BlogUpdateView(UpdateView):
-    model = Blog
-    fields = ('title', 'content', 'preview',)
-    success_url = reverse_lazy('catalog:blog_list')
-
-
-class BlogListView(ListView):
-    model = Blog
-
-
-class BlogDetailView(DetailView):
-    model = Blog
-
-    def get_object(self, queryset=None):
-        self.object = super().get_object(queryset)
-        self.object.views_count += 1
-        self.object.save()
-        return self.object
-
-
-class BlogDeleteView(DeleteView):
-    model = Blog
-    success_url = reverse_lazy('catalog:blog_list')
-
-def toggle_activity(request, pk):
-    blog_item = get_object_or_404(Blog, pk=pk)
-    if blog_item.is_active:
-        blog_item.is_active = False
-    else:
-        blog_item.is_active = True
-
-    blog_item.save()
-
-    return redirect(reverse('catalog:index'))
-
-
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
+    permission_required = 'catalog.crate_product'
     success_url = reverse_lazy('catalog:index')
+
+    def test_func(self):
+        return self.request.user.is_superuser
 
     def form_valid(self, form):
         self.object = form.save()
@@ -104,9 +72,10 @@ class ProductCreateView(CreateView):
         return super().form_valid(form)
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
+    permission_required = 'catalog.change_product'
     #success_url = reverse_lazy('catalog:index')
 
     def get_success_url(self):
@@ -131,6 +100,53 @@ class ProductUpdateView(UpdateView):
             formset.instance = self.object
             formset.save()
         return super().form_valid(form)
+
+#####
+
+class BlogCreateView(LoginRequiredMixin, CreateView):
+    model = Blog
+    fields = ('title', 'content', 'preview',)
+    success_url = reverse_lazy('catalog:blog_list')
+
+
+class BlogUpdateView(LoginRequiredMixin, UpdateView):
+    model = Blog
+    fields = ('title', 'content', 'preview',)
+    success_url = reverse_lazy('catalog:blog_list')
+
+
+class BlogListView(LoginRequiredMixin, ListView):
+    model = Blog
+
+
+class BlogDetailView(LoginRequiredMixin, DetailView):
+    model = Blog
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        self.object.views_count += 1
+        self.object.save()
+        return self.object
+
+
+class BlogDeleteView(LoginRequiredMixin, DeleteView):
+    model = Blog
+    success_url = reverse_lazy('catalog:blog_list')
+
+@login_required
+def toggle_activity(request, pk):
+    blog_item = get_object_or_404(Blog, pk=pk)
+    if blog_item.is_active:
+        blog_item.is_active = False
+    else:
+        blog_item.is_active = True
+
+    blog_item.save()
+
+    return redirect(reverse('catalog:index'))
+
+
+
 
     # def get_context_data(self, **kwargs):
     #     context_data = super().get_context_data(**kwargs)
