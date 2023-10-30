@@ -1,5 +1,7 @@
+from django.conf import settings
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
+from django.core.cache import cache
 from django.forms import inlineformset_factory
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
@@ -9,10 +11,6 @@ from catalog.forms import ProductForm, PossibilitiesForm, VersionForm
 from catalog.models import Product, Blog, Possibilities, Version
 
 from django.urls import reverse
-
-
-
-
 
 
 class IndexListView(LoginRequiredMixin, ListView):
@@ -41,6 +39,21 @@ class ProductListView(LoginRequiredMixin, ListView):
 
 class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
+    permission_required = 'catalog.view_product'
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        if settings.CACHE_ENABLED:
+            key = f'possibilities_list{self.object.pk}'
+            possibilities_list = cache.get(key)
+            if possibilities_list is None:
+                possibilities_list = self.object.possibilities_set.all()
+                cache.set(key, possibilities_list)
+        else:
+            possibilities_list = self.object.possibilities_set.all()
+
+        context_data['possibilities'] = possibilities_list
+        return context_data
 
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)

@@ -22,8 +22,10 @@
                      alt="Card image cap">
                 <div class="card-body">
                     <h1 class="card-title pricing-card-title">{{ object.name }}</h1>
+                    {% if perms.catalog.view_product %}
                     <a href="{% url 'catalog:product_view' object.pk %}" type="button"
                        class="btn btn-outline-info">Посмотреть</a>
+                    {% endif %}
                     {% if perms.catalog.change_product %}
                     <a href="{% url 'catalog:update_product' object.pk %}" type="button"
                        class="btn btn-outline-success">Изменить</a>
