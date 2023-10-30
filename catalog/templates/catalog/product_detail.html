@@ -3,7 +3,7 @@
 {% block content %}
 <div class="album py-5 bg-light">
     <div class="container">
-        <div class="row text-center">
+       <div class="row">
             <div class="col-md-4">
                 <div class="card mb-4 box-shadow">
                     <img class="card-img-top"
@@ -14,7 +14,6 @@
                             {{ object.category }}
                         </h3>
                     </div>
-
                     <div class="card-body">
                         <table class="table">
                             <tr>
@@ -34,12 +33,29 @@
                             Просмотры: {{ object.views_count }}
                         </div>
                     </div>
-
-
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-4 box-shadow">
+                    <div class="card-header">
+                        <h3 class='card-title'>
+                            Возможность {{object.description}}
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <ul>
+                            {% for possib in possibilities%}
+                            <li>{{ possib }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 </main>
 {% endblock %}
