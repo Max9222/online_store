@@ -4,3 +4,4 @@ sqlparse
 pillow
 ipython
 redis
+python-dotenv
