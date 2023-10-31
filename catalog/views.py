@@ -12,6 +12,8 @@ from catalog.models import Product, Blog, Possibilities, Version
 
 from django.urls import reverse
 
+from catalog.services import get_catalog_cache
+
 
 class IndexListView(LoginRequiredMixin, ListView):
     model = Product
@@ -43,16 +45,8 @@ class ProductDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        if settings.CACHE_ENABLED:
-            key = f'possibilities_list{self.object.pk}'
-            possibilities_list = cache.get(key)
-            if possibilities_list is None:
-                possibilities_list = self.object.possibilities_set.all()
-                cache.set(key, possibilities_list)
-        else:
-            possibilities_list = self.object.possibilities_set.all()
 
-        context_data['possibilities'] = possibilities_list
+        context_data['possibilities'] = get_catalog_cache(self)
         return context_data
 
     def get_object(self, queryset=None):
